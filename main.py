@@ -12,11 +12,11 @@ import os
 from settings import *
 
 
-class ResultFile(lw):
+class ResultFile:
     """
     Файл с результатами экзаменов
     """
-    def __init__(self, file):
+    def __init__(self, filename):
         """
         Открывает файл Excel с дополнительными атрибутами:
         name - название файла, который открыт
@@ -28,14 +28,14 @@ class ResultFile(lw):
             ключ - номер и буква класса (например, 11Н)
             значение - список кортежей. Один кортеж - данные одного ученика
             кортеж - Класс, Ф, И, О, Краткий ответ, Развернутый ответ, Первичный балл, Оценка
-        :param file: путь к файлу Excel. Тип данных - str
+        :param filename: путь к файлу Excel. Тип данных - str
         """
         # открываем файл excel
-        lw.__init__(self, file)
+        self.file = lw(filename)
         # запоминаем имя файла
-        self.name = file
+        self.name = filename
         # выбираем активную страницу для работы
-        self.sheet = self.active
+        self.sheet = self.file.active
         # проверяем версию файла - для 9 или 11 класса
         page_version = self.set_page_version()
         # выбираем нужное из словаря с параметрами
