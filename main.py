@@ -19,14 +19,21 @@ class ResultFile(lw):
     def __init__(self, file):
         """
         Открывает файл Excel с дополнительными атрибутами:
+        name - название файла, который открыт
         sheet - активная страница для работы
         columns - кортеж с номерами столбцов, отвечающих за соответствующие поля
         begin_row - номер строки с первым участником
         subject_cell - ячейка с названием предмета
+        students - словарь с данными всех учеников в файле:
+            ключ - номер и буква класса (например, 11Н)
+            значение - список кортежей. Один кортеж - данные одного ученика
+            кортеж - Класс, Ф, И, О, Краткий ответ, Развернутый ответ, Первичный балл, Оценка
         :param file: путь к файлу Excel. Тип данных - str
         """
         # открываем файл excel
         lw.__init__(self, file)
+        # запоминаем имя файла
+        self.name = file
         # выбираем активную страницу для работы
         self.sheet = self.active
         # проверяем версию файла - для 9 или 11 класса
@@ -35,6 +42,8 @@ class ResultFile(lw):
         self.columns = versions[page_version]['columns']  # номера столбцов
         self.begin_row = versions[page_version]['begin_row']  # первая строка с данными ученика
         self.subject_cell = versions[page_version]['subject_cell']  # название предмета
+        # набираем словарь с данными учеников
+        self.students = self.get_all_students()
 
     def set_page_version(self):
         """
@@ -48,10 +57,42 @@ class ResultFile(lw):
     def get_student(self, row):
         """
         Набирает в список данные одного ученика
-        :param row: номер строки, на которой находятся данные ученика
+        :param row: номер строки, на которой находятся данные ученика. Тип данных - int
         :return: список в порядке Класс, Ф, И, О, Краткий ответ, Развернутый ответ, Первичный балл, Оценка
         """
         student = []
         for i in self.columns:
             student.append(row=row, col=i).value
         return student
+
+    def write_student_to_dict(self, one_student, students):
+        """
+        Добавляет данные одного ученика в словарь.
+        Если ключа с номером класса нет - создает его.
+        :param one_student: список с данными одного ученика
+        :param students: словарь с ключами в виде классов (например, 11Н)
+        :return: словарь students с новым значением
+        """
+        grade = one_student[0]    # Номер класса (ключ словаря)
+        student_data = one_student[1:]    # Набор данных ученика
+
+        # Если класса еще нет в словаре - добавляем ключ
+        if grade not in students.keys():
+            students[grade] = []
+
+        # обновляем список по ключу grade новым набором данных
+        students[grade].append(set(student_data))
+        return students
+
+    def get_all_students(self):
+        """
+        Набирает всех учеников из файла в словарь
+        :return: словарь:
+        Ключ - номер класса (например, 11Н)
+        Значения - кортежи с данными по каждому сдававшему ученику из класса
+        """
+        students = {}
+        for row in range(self.begin_row, self.sheet.max_row + 1):
+            one_student = self.get_student(row)
+            students = self.write_student_to_dict(one_student, students)
+        return students
