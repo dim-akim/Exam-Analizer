@@ -62,7 +62,7 @@ class ResultFile:
         """
         student = []
         for i in self.columns:
-            student.append(row=row, col=i).value
+            student.append(self.sheet.cell(row=row, column=i).value)
         return student
 
     def write_student_to_dict(self, one_student, students):
