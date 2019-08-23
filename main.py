@@ -47,12 +47,16 @@ class ResultFile:
 
     def set_page_version(self):
         """
-        Возвращает версию файла - для 9 или 11 класса в виде ключа
-        для словаря versions
-        :return: 'nine' или 'eleven' в зависимости от версии файла
+        Возвращает версию файла в виде ключа для словаря versions
+        :return: 'nine', 'eleven' или 'appeal' в зависимости от версии файла
         """
-        # Функция возвращает версию файла - для 9 или 11 класса
-        return 'nine' if self.sheet[cell_check_version] is not '' else 'eleven'
+        check = self.sheet[cell_check_version].value
+        if check is 13273:
+            return 'nine'
+        elif check is None:
+            return 'eleven'
+        else:
+            return 'appeal'
 
     def get_student(self, row):
         """
