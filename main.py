@@ -7,6 +7,7 @@
 
 from openpyxl import load_workbook as lw
 from datetime import datetime
+from gui import list_of_files, directory
 import os
 
 from settings import *
@@ -51,7 +52,7 @@ class ResultFile:
         :return: 'nine', 'eleven' или 'appeal' в зависимости от версии файла
         """
         check = self.sheet[cell_check_version].value
-        if check is 13273:
+        if check == 13273:
             return 'nine'
         elif check is None:
             return 'eleven'
@@ -102,3 +103,21 @@ class ResultFile:
         # Удаляем из словаря пустые включения
         students.pop(None, None)
         return students
+
+
+class ResultTable:
+    """
+    Сводная таблица с результатами по предметам
+    """
+    def __init__(self):
+        pass
+
+
+def analise_results():
+    for filename in list_of_files:
+        file = ResultFile(filename)
+        print(file.name, file.set_page_version())
+
+
+if __name__ == '__main__':
+    analise_results()
