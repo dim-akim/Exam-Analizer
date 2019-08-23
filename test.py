@@ -29,15 +29,18 @@ def test2():
 
 
 def test3():
-    filename1 = lw('Результаты 2019/Пример_11.xlsx')
-    filename2 = lw('Результаты 2019/Пример_аппел.xlsx')
-    filename3 = lw('Результаты 2019/Пример.xlsx')
-    page1 = filename1.active
-    page2 = filename2.active
-    page3 = filename3.active
+    filenames = [
+        'Пример_11.xlsx',
+        'Пример_аппел.xlsx',
+        'Пример.xlsx'
+    ]
     cell = 'B10'
-    print(page1[cell].value)
-    print(page2[cell].value)
-    print(page3[cell].value)
+    for name in filenames:
+        book = lw(name)
+        page = book.active
+        print(page[cell].value)
 
 
+# test1()
+# test2()
+test3()
