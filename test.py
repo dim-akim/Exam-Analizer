@@ -17,9 +17,12 @@ from main import *
 
 filename = 'Результаты 2019/Пример.xlsx'
 file = ResultFile(filename)
-print(file.name)
-print(file.sheet)
+# print(file.name)
+# print(file.sheet)
+count = 0
 for i in file.students.keys():
     print(i)
     for j in file.students[i]:
+        count += 1
         print(j)
+print(count)
