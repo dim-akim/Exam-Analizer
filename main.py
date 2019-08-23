@@ -1,7 +1,7 @@
 """
 Программа анализирует файлы с результатами экзаменов ОГЭ и ЕГЭ
 Сводные данные будут отражены на новой странице в файле
-Версия 0.5
+Версия 0.6
 """
 
 
@@ -95,4 +95,6 @@ class ResultFile:
         for row in range(self.begin_row, self.sheet.max_row + 1):
             one_student = self.get_student(row)
             students = self.write_student_to_dict(one_student, students)
+        # Удаляем из словаря пустые включения
+        students.pop(None, None)
         return students
