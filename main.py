@@ -68,8 +68,8 @@ class ResultFile:
         :return: Название предмета. Тип данных - str
         """
         subject = ''
-        cell = [i for i in self.sheet.cell[self.subject_cell]]
-        if len[cell[0]] > 2:
+        cell = [i for i in self.sheet[self.subject_cell].value.split()]
+        if len(cell[0]) > 2:
             subject = str(cell[0]) + str(cell[1])
         else:
             cell = cell[2:]

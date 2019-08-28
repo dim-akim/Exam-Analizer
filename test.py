@@ -7,6 +7,7 @@ from openpyxl import load_workbook as lw
 
 
 def test1():
+    # Проверка работы параметра max_column
     file = lw('Результаты 2019/Пример.xlsx')
     page = file.active
 
@@ -15,6 +16,7 @@ def test1():
 
 
 def test2():
+    # Проверяет, работает ли класс ResultFile
     filename = 'Результаты 2019/Пример.xlsx'
     file = ResultFile(filename)
     # print(file.name)
@@ -29,6 +31,7 @@ def test2():
 
 
 def test3():
+    # Проверяет работу ячейки-маркера типа файла
     filenames = [
         'Пример_11.xlsx',
         'Пример_аппел.xlsx',
@@ -40,7 +43,19 @@ def test3():
         page = book.active
         print(page[cell].value)
 
+def test4():
+    # Проверяет вытаскивание названия предмета
+    filenames = [
+        'Пример_11.xlsx',
+        'Пример_аппел.xlsx',
+        'Пример.xlsx'
+    ]
+    for name in filenames:
+        book = ResultFile(name)
+        print(book.subject)
+
 
 # test1()
 # test2()
-test3()
+# test3()
+test4()
