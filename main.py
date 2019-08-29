@@ -25,6 +25,7 @@ class ResultFile:
         columns - кортеж с номерами столбцов, отвечающих за соответствующие поля
         begin_row - номер строки с первым участником
         subject_cell - ячейка с названием предмета
+        subject - название предмета
         students - словарь с данными всех учеников в файле:
             ключ - номер и буква класса (например, 11Н)
             значение - список списков. Один вложенный список - данные одного ученика
@@ -42,7 +43,9 @@ class ResultFile:
         # выбираем нужное из словаря с параметрами
         self.columns = versions[page_version]['columns']  # номера столбцов
         self.begin_row = versions[page_version]['begin_row']  # первая строка с данными ученика
-        self.subject_cell = versions[page_version]['subject_cell']  # название предмета
+        self.subject_cell = versions[page_version]['subject_cell']  # ячейка с названием предмета
+        # запоминаем название предмета
+        self.subject = self.get_subject()
         # набираем словарь с данными учеников
         self.students = self.get_all_students()
 
@@ -58,6 +61,22 @@ class ResultFile:
             return 'eleven'
         else:
             return 'appeal'
+
+    def get_subject(self):
+        """
+        Вытаскивает название предмета из ячейки subject_cell
+        :return: Название предмета. Тип данных - str
+        """
+        subject = ''
+        cell = [i for i in self.sheet[self.subject_cell].value.split()]
+        if len(cell[0]) > 2:
+            subject = str(cell[0]) + str(cell[1])
+        else:
+            cell = cell[2:]
+            cell = cell[:-1]
+            for i in cell:
+                subject += str(i)
+        return subject
 
     def get_student(self, row):
         """
