@@ -45,7 +45,7 @@ class ResultFile:
         self.begin_row = versions[page_version]['begin_row']  # первая строка с данными ученика
         self.subject_cell = versions[page_version]['subject_cell']  # ячейка с названием предмета
         # запоминаем название предмета
-        self.subject = self.get_subject()
+        # self.subject = self.get_subject()
         # набираем словарь с данными учеников
         self.students = self.get_all_students()
 
@@ -136,7 +136,11 @@ def analise_results():
     # Главная функция
     for filename in list_of_files:
         file = ResultFile(filename)
-        print(file.name, file.set_page_version(), file.subject)
+        print(file.name,
+              file.set_page_version(),
+              file.subject_cell
+              # file.sheet[file.subject_cell].value
+              )
 
 
 if __name__ == '__main__':
