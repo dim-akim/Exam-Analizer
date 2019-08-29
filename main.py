@@ -114,9 +114,10 @@ class ResultTable:
 
 
 def analise_results():
+    # Главная функция
     for filename in list_of_files:
         file = ResultFile(filename)
-        print(file.name, file.set_page_version())
+        print(file.name, file.set_page_version(), file.subject)
 
 
 if __name__ == '__main__':
