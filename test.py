@@ -43,6 +43,7 @@ def test3():
         page = book.active
         print(page[cell].value)
 
+
 def test4():
     # Проверяет вытаскивание названия предмета
     filenames = [
@@ -55,7 +56,31 @@ def test4():
         print(book.subject)
 
 
+def test5():
+    # Проверяет новый подход в считывании таблицы и определении версии
+    filenames = [
+        'Пример_11.xlsx',
+        'Пример_аппел.xlsx',
+        'Пример.xlsx'
+    ]
+    for name in filenames:
+        book = lw(name)
+        page = book.active
+        for row in range(1, page.max_row):
+            a = page.cell(row=row, column=1).value
+            # print(row, a)
+            if a == '№':
+                row += 1
+                print(row)
+                break
+        student = []
+        for i in range(1, page.max_column + 1):
+            a = page.cell(row=row, column=i).value
+            if a is not None:
+                student.append(a)
+        print(student)
+
 # test1()
 # test2()
 # test3()
-test4()
+test5()
