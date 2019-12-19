@@ -54,13 +54,13 @@ class ResultFile:
         Возвращает версию файла в виде ключа для словаря versions
         :return: 'nine', 'eleven' или 'appeal' в зависимости от версии файла
         """
+        if 'appel' in self.name:
+            return 'appeal'
         check = self.sheet[cell_check_version].value
         if check == 13273:
             return 'nine'
         elif check is None:
             return 'eleven'
-        else:
-            return 'appeal'
 
     def get_subject(self):
         """
